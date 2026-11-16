@@ -1,0 +1,14 @@
+services:
+  hodiny:
+    build: .
+    container_name: hodiny
+    ports:
+      - "8000:8000"
+    environment:
+      TZ: Europe/Prague   # aby cas serveru sedel s hostitelem
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/time')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
